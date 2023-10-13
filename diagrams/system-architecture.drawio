@@ -1,0 +1,101 @@
+<mxfile host="Electron" modified="2023-10-13T21:14:07.299Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.2 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="BtbZHtdMLTYgrpA8qtpW" version="22.0.2" type="device" pages="2">
+  <diagram name="functional-diagram" id="L2AKQrLFKaxz4LRy3BbS">
+    <mxGraphModel dx="792" dy="1961" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-3" target="MQKvuyEqX-mgQ1gwjPju-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="520" />
+              <mxPoint x="550" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-17" value="Relevant Answers" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-16">
+          <mxGeometry x="0.0432" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-3" value="Vector DB" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="390" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-4" target="MQKvuyEqX-mgQ1gwjPju-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-14" value="Embedding Search" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-9">
+          <mxGeometry x="-0.2" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-4" target="MQKvuyEqX-mgQ1gwjPju-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-19" value="Relevant Answers" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-18">
+          <mxGeometry x="-0.15" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-4" value="NLP Model" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="390" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-5" target="MQKvuyEqX-mgQ1gwjPju-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-11" value="POST Model Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-8">
+          <mxGeometry x="-0.0222" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-5" target="MQKvuyEqX-mgQ1gwjPju-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-21" value="Relevant Answers" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-20">
+          <mxGeometry x="0.0857" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-5" value="FastAPI" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="325" y="240" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-6" target="MQKvuyEqX-mgQ1gwjPju-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-10" value="String Question" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MQKvuyEqX-mgQ1gwjPju-7">
+          <mxGeometry x="-0.2571" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-6" value="Streamlit Frontend" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="110" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="MQKvuyEqX-mgQ1gwjPju-12" target="MQKvuyEqX-mgQ1gwjPju-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MQKvuyEqX-mgQ1gwjPju-12" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="195" y="-20" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="aWx22j2rTLDR4yyyU2Gh" name="embedding-process">
+    <mxGraphModel dx="754" dy="861" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZMY_UCtac3OqfLst4ykP-1" value="Vector DB" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="270" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ZMY_UCtac3OqfLst4ykP-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ZMY_UCtac3OqfLst4ykP-2" target="ZMY_UCtac3OqfLst4ykP-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZMY_UCtac3OqfLst4ykP-2" value="NLP Model" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="270" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ZMY_UCtac3OqfLst4ykP-3" value="On startup, we need to:&lt;br&gt;1. Load a corpus of documents.&lt;br&gt;2. Pull a model from Huggingface Model Repo.&lt;br&gt;3. Batch the corpus of text through the model and&lt;br&gt;&amp;nbsp; &amp;nbsp; store the embeddings in the Vector DB." style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="110" width="290" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
