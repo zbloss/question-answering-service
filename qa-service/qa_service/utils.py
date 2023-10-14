@@ -3,6 +3,7 @@ import os
 from typing import Dict, List
 
 from qa_service.models.wine_item import WineItem
+from pydantic import ValidationError
 
 
 def read_json_file(filepath: str) -> List[Dict[str, str]]:
@@ -55,5 +56,8 @@ def validate_wine_objects(wine_objects: List[Dict[str, str]]) -> List[WineItem]:
     for wine_object in wine_objects:
         # TODO: handle exceptions where wine items
         #       fail to be created.
-        wine_items.append(WineItem(**wine_object))
+        try:
+            wine_items.append(WineItem(**wine_object))
+        except ValidationError:
+            pass
     return wine_items

@@ -27,7 +27,7 @@ services:
       - weaviate
     environment:
       WEAVIATE_HOST: 'weaviate'
-      WEAVIATE_PORT: 8123
-      COLLECTION_NAME: WineReview
+      WEAVIATE_PORT: '8123'
+      COLLECTION_NAME: 'WineReview'
       MODEL_NAME: 'distilbert-base-uncased'
 ...
