@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "qa-service"
+version = "0.1.0"
+description = "RAG-based system to do question-answering on a given corpus of text."
+authors = ["Zachary Bloss <zacharybloss@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+torch = "^2.1.0"
+transformers = "^4.34.0"
+nltk = "^3.8.1"
+weaviate-client = "^3.24.2"
+fastapi = "^0.103.2"
+pydantic = "^2.4.2"
+numpy = "^1.26.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+isort = "^5.12.0"
+notebook = "^7.0.5"
+ipywidgets = "^8.1.1"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
