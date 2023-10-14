@@ -29,7 +29,9 @@ class EmbeddingLayer:
 
         self.model.eval()
 
-    def tokenize_text(self, text_to_tokenize: Union[List[str], str]) -> BatchEncoding:
+    def tokenize_text(
+        self, text_to_tokenize: Union[List[str], str], padding: Union[bool, str] = 'max_length'
+    ) -> BatchEncoding:
         """
         Given a string or list of strings,
         this method will encode and tokenize
@@ -40,6 +42,9 @@ class EmbeddingLayer:
             text_to_tokenize : Union[List[str], str]
                 Either a string or list of strings
                 to be tokenized.
+            padding : Union[bool, str]
+                Either True/False, or a padding strategy
+                to apply to the batch of `text_to_tokenize`.
         Returns:
             tokenized_text : BatchEncoding
                 A dictionary-like object containing
@@ -54,7 +59,7 @@ class EmbeddingLayer:
         tokenized_text: BatchEncoding = self.tokenizer(
             text_to_tokenize,
             return_tensors="pt",
-            padding="max_length",
+            padding=padding,
             truncation=True,
         )
         return tokenized_text
@@ -121,6 +126,7 @@ class EmbeddingLayer:
     def __call__(
         self,
         text_to_tokenize: Union[List[str], str],
+        padding: Union[bool, str] = 'max_length',
         mean_pooling: bool = True,
         return_cls_embedding: bool = False,
     ) -> torch.Tensor:
@@ -132,6 +138,9 @@ class EmbeddingLayer:
             text_to_tokenize : Union[List[str], str]
                 Either a string or list of strings
                 to be tokenized.
+            padding : Union[bool, str]
+                Either True/False, or a padding strategy
+                to apply to the batch of `text_to_tokenize`.
             mean_pooling : bool
                 True if you wish to apply mean pooling.
             return_cls_embedding : bool
@@ -145,7 +154,10 @@ class EmbeddingLayer:
         if mean_pooling and return_cls_embedding:
             raise MultiplePoolingMethodsException
 
-        out: BatchEncoding = self.tokenize_text(text_to_tokenize)
+        if isinstance(text_to_tokenize, str):
+            text_to_tokenize = [text_to_tokenize]
+
+        out: BatchEncoding = self.tokenize_text(text_to_tokenize, padding)
         out: BaseModelOutput = self.generate_embeddings(out)
         out: torch.Tensor = out.last_hidden_state
         out: torch.Tensor = self.pool_embeddings(
