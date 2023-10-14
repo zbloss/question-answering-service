@@ -1,10 +1,9 @@
 import time
-from typing import List
+from typing import List, Tuple, Dict
 
 import requests
 import torch
 import weaviate
-from tqdm import tqdm
 
 from qa_service.embedding_layer import EmbeddingLayer
 from qa_service.models.wine_item import WineItem
@@ -47,12 +46,76 @@ class WeaviateLayer:
 
         self.weaviate_client.schema.create_class(collection_class)
 
+    def _embed_model_batch(
+        self,
+        wine_items: List[WineItem],
+        model_batch_size: int,
+        start_index: int,
+        field_to_embed: str,
+        mean_pooling: bool = True,
+        return_cls_embedding: bool = False,
+    ) -> Tuple[List[Dict[str, str]], List]:
+        """
+        Generates a batch of WineItems of size `model_batch_size`,
+        beginning at `start_index` index of the `wine_items`.
+
+        Arguments:
+            wine_items : List[WineItem]
+                List of WineItem objects containing a `field_to_embed`
+                to be embedded in batches.
+            model_batch_size : int
+                How many `field_to_embed`s of WineItems to embed at once.
+            start_index : int
+                The index to start generating the batch from.
+                Data in the batch will begin at
+                `wine_items[start_index]` and ends at
+                `wine_items[start_index + batch_size]`.
+            field_to_embed : str
+                A key in each individual `WineItem` to be embedded.
+            mean_pooling : bool
+                True if you wish to apply mean pooling on the embedded
+                matrix.
+            return_cls_embedding : bool
+                True if you wish to return the CLS layer from the
+                embedded matrix.
+        Returns:
+            data_object, vectors : Tuple[List[Dict[str, str]], List]
+                A tuple of the data object ready to load to
+                a collection as well as the paring vector.
+                These lists are matched on index so easy uploading
+                to Weaviate.
+        """
+
+        end_index: int = start_index + model_batch_size
+        end_index: int = len(wine_items) if len(wine_items) < end_index else end_index
+
+        batch: list = wine_items[start_index:end_index]
+        
+        text_field: list = [batch_.model_dump()[field_to_embed] for batch_ in batch]
+
+        vectors: torch.Tensor = self.embedding_layer(
+            text_field, 'max_length', mean_pooling, return_cls_embedding
+        ).tolist()
+
+        assert len(vectors) == len(batch) == len(text_field)
+
+        data_objects: list = []
+        for index_, wine_item in enumerate(batch):
+            data_object = wine_item.model_dump()
+            data_object["chunk_index"] = index_
+            data_objects.append(data_object)
+
+        return data_objects, vectors
+
     def upload_wine_items(
         self,
         collection_name: str,
         wine_items: List[WineItem],
         batch_size: int,
+        model_batch_size: int = None,
         field_to_embed: str = "description",
+        mean_pooling: bool = True,
+        return_cls_embedding: bool = False,
     ):
         """
         Uploads a set of data to a given weaviate collection.
@@ -60,35 +123,35 @@ class WeaviateLayer:
 
         self.weaviate_client.batch.configure(batch_size=batch_size)
         with self.weaviate_client.batch as batch:
-            for wine_item_index, wine_item in enumerate(
-                tqdm(
+            for wine_item_index in range(0, len(wine_items), model_batch_size):
+                data_objects, vectors = self._embed_model_batch(
                     wine_items,
-                    desc="Uploading text to Vector DB",
-                    total=len(wine_items),
+                    model_batch_size,
+                    wine_item_index,
+                    field_to_embed,
+                    mean_pooling,
+                    return_cls_embedding,
                 )
-            ):
-                data_object = wine_item.model_dump()
-                data_object["chunk_index"] = wine_item_index
 
-                wine_review_embedding: torch.Tensor = self.embedding_layer(
-                    data_object[field_to_embed]
-                )
-                wine_review_vector: list = wine_review_embedding.int().tolist()
-                if len(wine_review_vector) == 1:
-                    wine_review_vector: list = wine_review_vector[0]
-                    assert len(wine_review_vector) != 1
+                assert len(data_objects) == len(
+                    vectors
+                ), f"data_objects ({len(data_objects)}) & vectors ({len(vectors)}) are not the same length."
 
-                try:
-                    batch.add_data_object(
-                        data_object,
-                        collection_name,
-                        vector=wine_review_vector,
-                    )
-                except weaviate.exceptions.UnexpectedStatusCodeException as e:
-                    print(
-                        f"Unable to load data_object into Vector DB | data_object: {data_object} | Exception: {e}"
-                    )
-                    pass
+                for (data_object, vector) in zip(data_objects, vectors):
+
+                    try:
+                        batch.add_data_object(
+                            data_object,
+                            collection_name,
+                            vector=vector,
+                        )
+                    except weaviate.exceptions.UnexpectedStatusCodeException as e:
+                        print(
+                            f"Unable to load data_object into Vector DB | data_object: {data_object} | Exception: {e}"
+                        )
+                        pass
+                
+                print(f'Total Documents Indexed: {wine_item_index + model_batch_size}')
 
     def query_collection(
         self,
@@ -142,32 +205,3 @@ class WeaviateLayer:
             return False
         else:
             return True
-
-
-if __name__ == "__main__":
-    from qa_service.utils import read_json_file, validate_wine_objects
-
-    WEAVIATE_URL = "http://localhost"
-    WEAVIATE_PORT = "8123"
-    WINE_FILEPATH = "C:/Users/altoz/Projects/question-answering-service/data/winemag-data-130k-v2.json"
-    DEBUG = True
-    COLLECTION_NAME = "WineReview"
-
-    model_name: str = "distilbert-base-uncased"
-
-    wine_objects: list = read_json_file(WINE_FILEPATH)
-    if DEBUG:
-        wine_objects = wine_objects[:100]
-
-    wine_items: List[WineItem] = validate_wine_objects(wine_objects)
-    weaviate_layer = WeaviateLayer(WEAVIATE_URL, WEAVIATE_PORT, model_name)
-
-    weaviate_layer.recreate_collection_class(COLLECTION_NAME)
-    weaviate_layer.upload_wine_items(COLLECTION_NAME, wine_items, batch_size=5)
-
-    is_weaviate_up = weaviate_layer.weaviate_healthcheck()
-
-    query_results = weaviate_layer.query_collection(
-        COLLECTION_NAME, query_text="funky and fruity"
-    )
-    print(query_results)

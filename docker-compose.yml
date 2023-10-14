@@ -30,4 +30,7 @@ services:
       WEAVIATE_PORT: '8123'
       COLLECTION_NAME: 'WineReview'
       MODEL_NAME: 'distilbert-base-uncased'
+      BATCH_SIZE: 100
+      MODEL_BATCH_SIZE: 32
+      MAX_NUMBER_OF_DOCUMENTS: 2000
 ...
