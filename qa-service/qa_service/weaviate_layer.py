@@ -16,7 +16,7 @@ class WeaviateLayer:
         self.model_name: str = model_name
         self.embedding_layer: EmbeddingLayer = EmbeddingLayer(model_name, use_gpu=False)
 
-        self.weaviate_client = weaviate.Client(f"http://{weaviate_url}:{weaviate_port}")
+        self.weaviate_client = weaviate.Client(f"{weaviate_url}:{weaviate_port}")
 
     def recreate_collection_class(
         self,
@@ -90,11 +90,11 @@ class WeaviateLayer:
         end_index: int = len(wine_items) if len(wine_items) < end_index else end_index
 
         batch: list = wine_items[start_index:end_index]
-        
+
         text_field: list = [batch_.model_dump()[field_to_embed] for batch_ in batch]
 
         vectors: torch.Tensor = self.embedding_layer(
-            text_field, 'max_length', mean_pooling, return_cls_embedding
+            text_field, "max_length", mean_pooling, return_cls_embedding
         ).tolist()
 
         assert len(vectors) == len(batch) == len(text_field)
@@ -137,8 +137,7 @@ class WeaviateLayer:
                     vectors
                 ), f"data_objects ({len(data_objects)}) & vectors ({len(vectors)}) are not the same length."
 
-                for (data_object, vector) in zip(data_objects, vectors):
-
+                for data_object, vector in zip(data_objects, vectors):
                     try:
                         batch.add_data_object(
                             data_object,
@@ -150,8 +149,8 @@ class WeaviateLayer:
                             f"Unable to load data_object into Vector DB | data_object: {data_object} | Exception: {e}"
                         )
                         pass
-                
-                print(f'Total Documents Indexed: {wine_item_index + model_batch_size}')
+
+                print(f"Total Documents Indexed: {wine_item_index + model_batch_size}")
 
     def query_collection(
         self,
@@ -168,7 +167,7 @@ class WeaviateLayer:
         vector_certainty: float = 0.75,
         max_results: int = 3,
     ):
-        query_embedding: torch.Tensor = self.embedding_layer(query_text)
+        query_embedding: torch.Tensor = self.embedding_layer(query_text, 'max_length')
         query_vector: list = query_embedding.tolist()
         if len(query_vector) == 1:
             query_vector: list = query_vector[0]
@@ -193,7 +192,7 @@ class WeaviateLayer:
         #       and retry logic.
 
         healthcheck_endpoint = "v1/.well-known/live"
-        url = f"http://{self.weaviate_url}:{self.weaviate_port}/{healthcheck_endpoint}"
+        url = f"{self.weaviate_url}:{self.weaviate_port}/{healthcheck_endpoint}"
         response = requests.get(url)
 
         attempts: int = 0

@@ -29,7 +29,9 @@ class EmbeddingLayer:
 
         self.model.eval()
 
-    def tokenize_text(self, text_to_tokenize: Union[List[str], str], padding: Union[bool, str] = True) -> BatchEncoding:
+    def tokenize_text(
+        self, text_to_tokenize: Union[List[str], str], padding: Union[bool, str] = 'max_length'
+    ) -> BatchEncoding:
         """
         Given a string or list of strings,
         this method will encode and tokenize
@@ -124,7 +126,7 @@ class EmbeddingLayer:
     def __call__(
         self,
         text_to_tokenize: Union[List[str], str],
-        padding: Union[bool, str] = True,
+        padding: Union[bool, str] = 'max_length',
         mean_pooling: bool = True,
         return_cls_embedding: bool = False,
     ) -> torch.Tensor:
@@ -151,7 +153,7 @@ class EmbeddingLayer:
 
         if mean_pooling and return_cls_embedding:
             raise MultiplePoolingMethodsException
-        
+
         if isinstance(text_to_tokenize, str):
             text_to_tokenize = [text_to_tokenize]
 
