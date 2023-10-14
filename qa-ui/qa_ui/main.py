@@ -41,6 +41,7 @@ def main():
     # Welcome to the Question-Answering Service
             
     This is a sample project showing how to utilize:
+             
         1. NLP Embedding Model
         2. NLP Question Answering Model
         3. Vector Database
