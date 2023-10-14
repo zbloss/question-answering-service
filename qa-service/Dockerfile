@@ -8,11 +8,12 @@ COPY . /app
 
 WORKDIR /app
 
-RUN poetry install
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-interaction --no-ansi
 
 ENV HOST='0.0.0.0' \
     PORT='8000' \
-    WEAVIATE_HOST='0.0.0.0' \
+    WEAVIATE_HOST='localhost' \
     WEAVIATE_PORT='8123' \
     COLLECTION_NAME='WineReview' \
     MODEL_NAME='distilbert-base-uncased' \

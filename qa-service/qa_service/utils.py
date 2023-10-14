@@ -4,13 +4,6 @@ from typing import Dict, List
 
 from qa_service.models.wine_item import WineItem
 
-WEAVIATE_URL = "http://localhost"
-WEAVIATE_PORT = "8123"
-
-WINE_FILEPATH = (
-    "C:/Users/altoz/Projects/question-answering-service/data/winemag-data-130k-v2.json"
-)
-
 
 def read_json_file(filepath: str) -> List[Dict[str, str]]:
     """

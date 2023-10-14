@@ -30,11 +30,15 @@ if __name__ == '__main__':
     MODEL_NAME = os.getenv('MODEL_NAME') or 'distilbert-base-uncased'
     FILEPATH = os.getenv('FILEPATH') or 'data/winemag-data-130k-v2.json'
 
+    print(f'WEAVIATE_HOST: {WEAVIATE_HOST}')
+    print(f'WEAVIATE_PORT: {WEAVIATE_PORT}')
+    print('\n\n\n\n')
+
     weaviate_layer = WeaviateLayer(WEAVIATE_HOST, WEAVIATE_PORT, MODEL_NAME)
 
     print(f'Loading data into Weaviate...')
     wine_objects: list = read_json_file(FILEPATH)
-    wine_items = validate_wine_objects(wine_objects[:200])
+    wine_items = validate_wine_objects(wine_objects)
     weaviate_layer.recreate_collection_class(COLLECTION_NAME)
     weaviate_layer.upload_wine_items(COLLECTION_NAME, wine_items, batch_size=100)
     
