@@ -106,7 +106,7 @@ class WeaviateLayer:
         max_results: int = 3,
     ):
         query_embedding: torch.Tensor = self.embedding_layer(query_text)
-        query_vector: list = query_embedding.int().tolist()
+        query_vector: list = query_embedding.tolist()
         if len(query_vector) == 1:
             query_vector: list = query_vector[0]
             assert len(query_vector) != 1
