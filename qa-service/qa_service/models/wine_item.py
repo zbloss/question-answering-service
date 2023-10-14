@@ -15,7 +15,7 @@ class WineItem(BaseModel):
     title: str
     description: str
     variety: str
-    region_1: str
+    region_1: Optional[str] = None
     region_2: Optional[str] = None
     country: str
 
@@ -26,4 +26,8 @@ class WineItem(BaseModel):
             if self.region_2 is not None
             else self.region_1
         )
+
+        if self.region_1 == self.region_2 == None:
+            region = "No available region"
+
         return region
