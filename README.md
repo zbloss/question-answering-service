@@ -54,3 +54,11 @@ Almost all of the requirements are satisfied. The one requirement not completely
 This project does allow for Natural Language questions however I was not able to return a Natural Language response in the time I spent working on it. Instead, the user is returned with the Top 3 best matches from the vector database.
 
 Adding a natural language response is something that can easily be implemented in a 2 hours. This would involved standing up a third service in this docker-compose stack. This service would be another FastAPI model service that takes the response from the `qa-service-api` here and provides a human-friendly response back.
+
+## Next Steps
+
+Given another few hours, these are the improvements I would make to this project.
+
+1. Tests. I have a good handful of unit tests for the wrapper code I wrote, but I did not touch the API service yet.
+2. An additional Natural Language Inference service that takes the qa-service-api output and makes it more conversational.
+3. Kubernetes manifests. This could be rolled into a helm-chart, thereby being made a highly-reusable piece of infrastructure given that the model under the hood is Environment Variable driven.
