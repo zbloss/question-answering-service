@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "qa-ui"
+version = "0.1.0"
+description = ""
+authors = ["Zachary Bloss <zacharybloss@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+streamlit = "^1.27.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

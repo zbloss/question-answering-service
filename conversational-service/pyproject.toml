@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "conversational-service"
+version = "0.1.0"
+description = ""
+authors = ["Zachary Bloss <zacharybloss@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.103.2"
+transformers = "^4.34.0"
+torch = "1.12.1"
+uvicorn = "^0.23.2"
+pydantic = "^2.4.2"
+weaviate-client = "^3.24.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
